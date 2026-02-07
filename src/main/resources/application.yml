@@ -1,0 +1,33 @@
+server:
+  port: 80
+
+spring:
+  application:
+    name: SpringExercise
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+    url: jdbc:h2:./db/mft_db_2;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;MODE=MYSQL;
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+  thymeleaf:
+    mode: HTML
+    cache: false
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+
+
+
+
+
+

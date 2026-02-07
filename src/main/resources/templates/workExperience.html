@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Work Experience Manager</title>
+    <link rel="stylesheet" href="/css/user.css"/>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .main { max-width: 1000px; margin: auto; }
+        .title h1 { text-align: center; margin-bottom: 20px; }
+        .form-group { margin-bottom: 10px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, textarea, select { width: 100%; padding: 5px; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        button { margin-right: 5px; }
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="title">
+        <h1>Work Experience Manager</h1>
+    </div>
+
+    <div class="signdata">
+        <form id="workExperienceForm">
+            <input type="hidden" id="id" />
+
+            <div class="form-group">
+                <label for="person">Person</label>
+                <input id="person" name="person" type="text" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="companyName">Company Name</label>
+                <input id="companyName" name="companyName" type="text" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="jobTitle">Job Title</label>
+                <input id="jobTitle" name="jobTitle" type="text" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="startYear">Start Year</label>
+                <input id="startYear" name="startYear" type="date" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="endYear">End Year</label>
+                <input id="endYear" name="endYear" type="date" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" rows="3"></textarea>
+            </div>
+
+            <input type="button" id="saveButton" value="Add" onclick="submitWorkExperience()"/>
+            <input type="button" value="Clear" onclick="clearForm()"/>
+        </form>
+    </div>
+
+    <div class="table">
+        <table id="workExperienceTable">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Person</th>
+                <th>Company</th>
+                <th>Job Title</th>
+                <th>Start Year</th>
+                <th>End Year</th>
+                <th>Description</th>
+                <th>Operations</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    let editingId = null;
+
+    function clearForm() {
+        document.getElementById("workExperienceForm").reset();
+        document.getElementById("id").value = "";
+        editingId = null;
+        document.getElementById("saveButton").value = "Add";
+    }
+
+    async function submitWorkExperience() {
+        const data = {
+            person: document.getElementById("person").value,
+            companyName: document.getElementById("companyName").value,
+            jobTitle: document.getElementById("jobTitle").value,
+            startYear: document.getElementById("startYear").value,
+            endYear: document.getElementById("endYear").value,
+            description: document.getElementById("description").value
+        };
+
+        let url = "/work-experiences";
+        let method = "POST";
+
+        if(editingId) {
+            url += "/" + editingId;
+            method = "PUT";
+            data.id = editingId;
+        }
+
+        const response = await fetch(url, {
+            method: method,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data)
+        });
+
+        if(response.ok) {
+            alert(editingId ? "Updated successfully" : "Added successfully");
+            clearForm();
+            loadTable();
+        } else {
+            alert("Operation failed");
+        }
+    }
+
+    async function loadTable() {
+        const response = await fetch("/work-experiences");
+        if(!response.ok) return;
+        const workExperiences = await response.json();
+
+        const tbody = document.getElementById("workExperienceTable").querySelector("tbody");
+        tbody.innerHTML = "";
+
+        workExperiences.forEach(w => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td>${w.id}</td>
+                <td>${w.person}</td>
+                <td>${w.companyName}</td>
+                <td>${w.jobTitle}</td>
+                <td>${w.startYear}</td>
+                <td>${w.endYear}</td>
+                <td>${w.description || ""}</td>
+                <td>
+                    <button onclick="editWorkExperience(${w.id})">Edit</button>
+                    <button onclick="removeWorkExperience(${w.id})">Remove</button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+
+    async function editWorkExperience(id) {
+        const response = await fetch("/work-experiences/" + id);
+        if(!response.ok) return alert("Failed to load data");
+        const w = await response.json();
+
+        editingId = w.id;
+        document.getElementById("id").value = w.id;
+        document.getElementById("person").value = w.person;
+        document.getElementById("companyName").value = w.companyName;
+        document.getElementById("jobTitle").value = w.jobTitle;
+        document.getElementById("startYear").value = w.startYear;
+        document.getElementById("endYear").value = w.endYear;
+        document.getElementById("description").value = w.description || "";
+        document.getElementById("saveButton").value = "Update";
+    }
+
+    // حذف
+    async function removeWorkExperience(id) {
+        if(!confirm("Are you sure you want to remove this record?")) return;
+        const response = await fetch("/work-experiences/" + id, { method: "DELETE" });
+        if(response.ok) {
+            alert("Removed successfully");
+            loadTable();
+        } else {
+            alert("Failed to remove");
+        }
+    }
+
+    loadTable();
+</script>
+</body>
+</html>
