@@ -46,9 +46,17 @@ public class WorkExperienceController {
         return "redirect:/work_experiences";
     }
 
-    @PutMapping
-    public String updateWorkExperience(@RequestBody WorkExperienceDto workExperienceDto) {
+    @PostMapping("/update")
+    public String updateWorkExperiencePost(@ModelAttribute WorkExperienceDto workExperienceDto) {
         workExperienceService.update(workExperienceDto);
-        return "workExperience";
+        return "redirect:/work_experiences";
     }
+
+    @PostMapping("/delete/{id}")
+    public String deleteWorkExperience(@PathVariable("id") Long id) {
+        workExperienceService.deleteById(id);
+        return "redirect:/work_experiences";
+    }
+
+
 }

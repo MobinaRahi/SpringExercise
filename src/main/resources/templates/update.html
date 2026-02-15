@@ -21,8 +21,8 @@
         <h1>Update Work Experience</h1>
     </div>
 
-    <form >
-        <input type="text" id="id" name="id" th:value="${workExperience.id}" />
+    <form action="/work_experiences/update" method="post">
+        <input type="hidden" name="id" th:value="${workExperience.id}" />
 
         <div class="form-group">
             <label for="person">Person</label>
@@ -36,48 +36,28 @@
 
         <div class="form-group">
             <label for="jobTitle">Job Title</label>
-            <input id="jobTitle" name="jobTitle" type="text"  th:value="${workExperience.jobTitle}"   required/>
+            <input id="jobTitle" name="jobTitle" type="text" th:value="${workExperience.jobTitle}" required/>
         </div>
 
         <div class="form-group">
             <label for="startYear">Start Year</label>
-            <input id="startYear" name="startYear" type="date"  th:value="${workExperience.startYear}"   required/>
+            <input id="startYear" name="startYear" type="date" th:value="${workExperience.startYear}" required/>
         </div>
 
         <div class="form-group">
             <label for="endYear">End Year</label>
-            <input id="endYear" name="endYear" type="date"  th:value="${workExperience.endYear}"   required/>
+            <input id="endYear" name="endYear" type="date" th:value="${workExperience.endYear}" required/>
         </div>
 
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea id="description" name="description"  th:text="${workExperience.description}"  ></textarea>
+            <textarea id="description" name="description" rows="3" th:text="${workExperience.description}"></textarea>
         </div>
 
-        <button type="button" value="Save" th:onclick="editWorkExperience()">Update</button>
+        <button type="submit">Update</button>
     </form>
+
 </div>
-<script>
-    function editWorkExperience() {
-        fetch("/work_experiences",{
-            method: "PUT",
-            body:JSON.stringify(
-                    {
-                        id:document.getElementById("id").value,
-                        person:document.getElementById("person").value,
-                        companyName:document.getElementById("companyName").value,
-                        jobTitle:document.getElementById("jobTitle").value,
-                        startYear:document.getElementById("startYear").value,
-                        endYear:document.getElementById("endYear").value,
-                        description:document.getElementById("description").value,
-                    }
-            ),
-            headers: {
-                "content-type": "application/json;"
-            }
-        });
-        window.location.replace("/work_experiences");
-    }
-</script>
+
 </body>
 </html>

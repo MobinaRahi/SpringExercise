@@ -56,6 +56,24 @@
         button {
             margin-right: 5px;
         }
+        .pagination ul {
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+        }
+        .pagination li {
+            margin-right: 5px;
+        }
+        .pagination li a {
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+            color: #333;
+        }
+        .pagination li.active a {
+            font-weight: bold;
+            background-color: #ddd;
+        }
     </style>
 </head>
 <body>
@@ -135,9 +153,29 @@
         </table>
     </div>
 </div>
+<div class="pagination">
+    <ul>
+        <li th:if="${workExperiences.hasPrevious()}">
+            <a th:href="@{/work_experiences(page=${workExperiences.number - 1}, size=${workExperiences.size})}">Previous</a>
+        </li>
+        <li th:each="i : ${#numbers.sequence(0, workExperiences.totalPages - 1)}"
+            th:classappend="${i == workExperiences.number} ? 'active'">
+            <a th:href="@{/work_experiences(page=${i}, size=${workExperiences.size})}"
+               th:text="${i + 1}"></a>
+        </li>
+        <li th:if="${workExperiences.hasNext()}">
+            <a th:href="@{/work_experiences(page=${workExperiences.number + 1}, size=${workExperiences.size})}">Next</a>
+        </li>
+    </ul>
+</div>
 <script>
     function edit(id) {
         window.location.replace("work_experiences/update/" + id)
+    }
+
+    function remove(id) {
+        fetch("/work_experiences/delete/" + id, {method: "POST"})
+                .then(() => window.location.reload());
     }
 </script>
 </body>
