@@ -44,6 +44,7 @@ public class WorkExperienceServiceImp implements WorkExperienceService {
         workExperienceRepository.deleteById(id);
     }
 
+    @Transactional
     @Override
     public void restoreById(Long id) {
         workExperienceRepository.restorById(id);
