@@ -1,5 +1,6 @@
 package com.mftplus.workExperience.repository;
 
+import com.mftplus.workExperience.model.Person;
 import com.mftplus.workExperience.model.WorkExperience;
 
 import org.springframework.data.domain.Page;
@@ -31,7 +32,5 @@ public interface WorkExperienceRepository extends JpaRepository<WorkExperience, 
             nativeQuery = true
     )
     void restorById(@Param("id") Long id);
-
-
 
 }

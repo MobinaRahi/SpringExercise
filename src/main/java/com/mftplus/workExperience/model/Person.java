@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -15,6 +16,7 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLDelete(sql = "UPDATE persons SET deleted=true WHERE id=?")
 @SQLRestriction("deleted=false")
 
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter

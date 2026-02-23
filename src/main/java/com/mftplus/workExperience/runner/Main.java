@@ -50,5 +50,6 @@ public class Main implements CommandLineRunner {
                         .build();
         workExperienceService.save(workExperienceDto);
         log.info("WorkExperience saved successfully");
+
     }
 }

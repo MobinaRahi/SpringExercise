@@ -16,9 +16,10 @@ public class PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
 
-    public void save(PersonDto personDto) {
+    public Person save(PersonDto personDto) {
         Person person = personMapper.toEntity(personDto);
-        personRepository.save(person);
+        Person person1 = personRepository.save(person);
+        return person1;
     }
 
     public Person findById(Long id) {
