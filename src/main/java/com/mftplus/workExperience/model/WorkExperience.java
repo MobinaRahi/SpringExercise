@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -28,9 +29,9 @@ public class WorkExperience extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "person", nullable = false, length = 20)
-    @Pattern(regexp = "^[a-zA-Z\\s]{3,20}$", message = "Invalid Person")
-    private String person;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "personId", nullable = false)
+    private Person person;
 
     @Column(name = "company_name", nullable = false, length = 100)
     @Pattern(regexp = "^[a-zA-Z0-9\\s]{3,100}$", message = "Invalid CompanyName")

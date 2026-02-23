@@ -21,7 +21,7 @@ public class WorkExperienceDto {
 
     private Long id;
 
-    private String person;
+    private Long personId;
 
     @Pattern(regexp = "^[a-zA-Z0-9\\s]{3,100}$", message = "Invalid CompanyName")
     private String companyName;

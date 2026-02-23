@@ -2,6 +2,7 @@ package com.mftplus.workExperience.service;
 
 import com.mftplus.workExperience.dto.WorkExperienceDto;
 import com.mftplus.workExperience.mapper.WorkExperienceMapper;
+import com.mftplus.workExperience.model.Person;
 import com.mftplus.workExperience.model.WorkExperience;
 import com.mftplus.workExperience.repository.WorkExperienceRepository;
 import lombok.RequiredArgsConstructor;
@@ -19,11 +20,14 @@ public class WorkExperienceServiceImp implements WorkExperienceService {
 
     private final WorkExperienceRepository workExperienceRepository;
     private final WorkExperienceMapper workExperienceMapper;
+    private final PersonService personService;
 
     @Transactional
     @Override
     public void save(WorkExperienceDto workExperienceDto) {
         WorkExperience workExperience = workExperienceMapper.toEntity(workExperienceDto);
+        Person person = personService.findById(workExperienceDto.getPersonId());
+        workExperience.setPerson(person);
         workExperienceRepository.save(workExperience);
     }
 
