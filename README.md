@@ -1,0 +1,83 @@
+ماژول سوابق شغلی (Work Experience)
+پروژه سیستم مدیریت مدرسه
+
+این ماژول مسئول مدیریت سوابق شغلی معلمان در سیستم مدیریت مدرسه است و با معماری لایه‌ای و استانداردهای حرفه‌ای Spring Boot پیاده‌سازی شده است.
+
+🛠 تکنولوژی‌های استفاده‌شده
+
+Java 17
+
+Spring Boot
+
+Spring Data JPA
+
+Hibernate
+
+MapStruct
+
+Lombok
+
+Jakarta Validation
+
+پایگاه داده H2 (توسعه)
+
+پایگاه داده Oracle (محیط اصلی)
+
+🏗 معماری
+
+پیاده‌سازی به صورت لایه‌ای:
+
+DTO → Mapper → Service → Repository → Database
+
+ساختار پکیج:
+
+experience
+├── dto
+├── mapper
+├── model
+├── repository
+└── service
+✨ قابلیت‌ها
+
+ایجاد، ویرایش و حذف سابقه شغلی
+
+حذف منطقی (Soft Delete) با استفاده از Hibernate
+
+بازیابی رکوردهای حذف‌شده
+
+صفحه‌بندی (Pagination)
+
+اعتبارسنجی داده‌ها (Validation)
+
+استفاده از Auditing برای ثبت تاریخ ایجاد و ویرایش
+
+🗑 حذف منطقی (Soft Delete)
+
+به‌جای حذف فیزیکی از دیتابیس، رکوردها با فیلد deleted غیرفعال می‌شوند.
+امکان مشاهده رکوردهای حذف‌شده و بازیابی آن‌ها نیز وجود دارد.
+
+🎯 نکات فنی قابل توجه
+
+استفاده از DTO برای جلوگیری از نشت مستقیم Entity
+
+استفاده از MapStruct برای تبدیل خودکار بین Entity و DTO
+
+پیاده‌سازی Pagination با Page و Pageable
+
+استفاده از Auditing برای ثبت خودکار createdDate و modifiedDate
+
+طراحی Service به صورت Interface-based
+
+📌 هدف طراحی
+
+این ماژول با هدف رعایت اصول:
+
+Separation of Concerns
+
+Clean Architecture
+
+Maintainability
+
+توسعه‌پذیری در مقیاس سازمانی
+
+پیاده‌سازی شده است.
